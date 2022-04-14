@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+  <!-- Meta Charset -->
+  <meta charset="utf-8">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Roboto:wght@100;300;400;900&family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap" rel="stylesheet">
+
+  <!-- Font Awesome (Icons) -->
+  <script src="https://kit.fontawesome.com/64de45cbba.js" crossorigin="anonymous"></script>
+
+  <!-- Bootstrap -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+
+  <!-- Styles     -->
+  <link rel="stylesheet" href="style.css">
+
+  <!-- icon -->
+  <link rel="shortcut icon" href="images/icon.gif" type="image/x-icon">
+
+  <!-- Meta Infos about Page -->
+  <meta name="author" content="Ygor Goulart">
+  <meta name="description" content="I'm Ygor Goulart, a Web Developer who uses JavaScript learning new tricks and languages.">
+  <meta name="keywords" content="Ygor Goulart, Interactive Resume, Frontend, Web developer, Interactive CV, Resume, CV, Algorithms, HTML, CSS, Javascript, Node, React, MongoDB">
+  <meta name="robots" content="follow">
+  <meta name="revisit-after" content="15 days">
+
+  <title>Poring Clicker</title>
+</head>
+
+<body>
+  <div class="container">
+
+    <!-- clicker container -->
+    <div class="clicker">
+
+      <div class="header">
+        <h1 id="scoreAmount">0</h1>
+        <h3>Poring Essences <img src="images/item/card.gif" alt=""></h3>
+        <p>Per second: <span id="scoresPerSecond">0</span></p>
+      </div>
+
+      <div class="image">
+        <div id="bigCard"></div>
+      </div>
+
+    </div>
+
+    <!-- content container -->
+    <div class="content">
+      <div class="header">
+        <div class="row">
+          <button type="button" name="button">Git Hub</button>
+          <button type="button" name="button">Stats</button>
+        </div>
+        <div class="row">
+          <img src="images/logo-ro.png" alt="">
+        </div>
+        <div class="row">
+          <button type="button" name="button">About</button>
+          <div class="dropdown">
+            <button type="button" name="button">Options</button>
+            <div class="dropdown-content">
+              <button onclick="saveGame()" type="button" name="button">Save Game</button>
+              <button onclick="loadGame()" type="button" name="button">Load Game</button>
+              <button onclick="resetGame()" type="button" name="button">Reset</button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="buildingVisual">
+        <div class="box poring">
+
+        </div>
+        <div class="box drops">
+
+        </div>
+        <div class="box poporing">
+
+        </div>
+        <div class="box marin">
+
+        </div>
+        <div class="box ghostring">
+
+        </div>
+      </div>
+    </div>
+
+    <!-- store container -->
+    <div class="store">
+
+      <h2>Enhance</h2>
+      <div id="upgradeContainer" class="enhancements"></div>
+
+      <h2>Create</h2>
+      <div class="creator">
+        <div class="mods">
+          <button class="active" type="button" name="button">buy</button>
+          <button class="active" type="button" name="button">1</button>
+          <button type="button" name="button">10</button>
+          <button type="button" name="button">sell</button>
+          <button type="button" name="button">100</button>
+          <button type="button" name="button">max</button>
+        </div>
+      </div>
+
+      <div id="buildingContainer" class="buildings"></div>
+
+    </div>
+
+    <!-- achievements -->
+    <div class="achievements" id="achievementContainer"></div>
+
+
+  </div>
+
+  </div>
+
+  <!-- <div id="scoreButton" class="left">
+    <ul>
+      <li><div>Essence:</div><span id="scoreAmount">0</span></li>
+      <li><div>Poring:</div><span id="poringsAmount">0</span>
+        <button onclick="buyPoring()" type="button" name="button">Buy [<span id="poringsCost">15</span>]</button></li>
+      <li>Drops: <span id="dropsAmounts">0</span> <button onclick="buyDrops()" type="button" name="button">Buy [<span id="dropsCosts">100</span>]</button></li>
+      <li>Poporing: <span id="poporingsAmount">0</span> <button onclick="buyPoporing()" type="button" name="button">Buy [<span id="poporingsCost">1100</span>]</button></li>
+      <li>Marin: <span id="marinsAmount">0</span> <button onclick="buyMarin()" type="button" name="button">Buy [<span id="marinsCost">12000</span>]</button></li>
+      <li>Ghostring: <span id="ghostringsAmount">0</span> <button onclick="buyGhostring()" type="button" name="button">Buy [<span id="ghostringsCost">130000</span>]</button></li>
+    </ul>
+  </div>
+  <div class="right">
+    <div class="poring-img-container">
+      <img onclick="clickScore()" src="images/card/poring.png" alt="">
+    </div>
+  </div> -->
+
+  <script type="text/javascript" src="script.js"></script>
+</body>
+
+</html>
