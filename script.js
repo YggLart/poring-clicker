@@ -30,7 +30,18 @@ var display = {
   updateShop: function() {
     document.getElementById("buildingContainer").innerHTML = "";
     for (i = 0; i < building.name.length; i++) {
-      document.getElementById("buildingContainer").innerHTML += '<div onclick="building.purchase(' + i + ')" class="building"><img class="m-image" src="images/monster/' + building.image[i] + '" alt=""><div class="monster"><h3 class="m-name">' + building.name[i] + '</h3><div class="m-cost"><img src="images/item/card.gif" alt=""> <span>' + building.cost[i] + '</span></div></div><h4>' + building.count[i] + '</h4></div>'
+      if (building.count[i] == 0) building.count[i]++
+      let bScorePerSecond = Math.round((building.income[i] * building.count[i]) * building.level[i] )
+      let bScorePerMinute =  Math.round(((building.income[i] * building.count[i]) * building.level[i] ) * 60);
+      let bScorePerHour = Math.round((((building.income[i] * building.count[i]) * building.level[i] ) * 60) * 60);
+      document.getElementById("buildingContainer").innerHTML += '<div id="'+ building.name[i] +'Container" class="box"> <div id="'+ building.name[i] +'Container-header" class="header"> <div class="name"> <div class="circle-button minimize"></div>'+ building.name[i] +' </div><div class="flex header-right"> <div class="circle-button minimize"></div><div class="circle-button cross"></div></div></div><div class="flex col"> <div class="flex row builder-info"> <div class="builder-box-image"><img src="images/builder/'+ building.image[i] +'" alt=""></div><div class="flex col"> <div class="flex a-center j-between builder-units"> <p><span>' + building.count[i] + '</span> units</p><p>Lvl <span>' + building.level[i] + '</span></p></div><div class="flex a-center builder-per-second"> <div class="card-gif"></div><div class="flex col"> <p><span>' + bScorePerSecond + '</span> /per second</p><p><span>' + bScorePerMinute + '</span> /per minute</p><p><span>' + bScorePerHour + '</span> /per hour</p></div></div><div class="flex a-center j-between builder-total"> <p><span>'+ building.totalIncome[i] +'</span> made in total</p></div></div></div><div class="flex j-around a-center builder-buy-upgrade"><button onclick="building.purchase(' + i + ')">buy</button> <button onclick="building.levelUp(' + i + ')">level up</button></div><div class="flex wrap bg-white builder-upgrade-box"> <div class="upgrade-slot flex aj-center"><img src="images/status/agi-up.png" alt=""/></div><div class="upgrade-slot flex aj-center"><img src="images/status/blessing.png" alt=""/></div><div class="upgrade-slot flex aj-center"><img src="images/status/FoodStr.png" alt=""/></div><div class="upgrade-slot flex aj-center"><img src="images/status/BattleManual.png" alt=""/></div><div class="upgrade-slot flex aj-center"></div></div></div></div>'
+      dragElement(document.getElementById(building.name[i] + "Container"));
+    }
+  },
+
+  updateTotalIncome: function() {
+    for (i = 0; i < building.name.length; i++) {
+      building.totalIncome[i] += building.income[i];
     }
   },
 
@@ -59,27 +70,35 @@ var display = {
 
 var building = {
   name: [
-    "Poring",
-    "Drops",
-    "Poporing",
-    "Marin",
-    "Ghostring"
+    "poring",
+    "drops",
+    "poporing",
+    "marin",
+    "ghostring"
   ],
-  image: [
+  sprite: [
     "poring.gif",
     "drops.gif",
     "poporing.gif",
     "marin.gif",
     "ghostring.gif"
   ],
-  staticImage: [
+  staticSprite: [
     "poring-static.gif",
     "drops-static.gif",
     "poporing-static.gif",
     "marin-static.gif",
     "ghostring-static.gif"
   ],
+  image: [
+    "poring.webp",
+    "drops.webp",
+    "poporing.webp",
+    "marin.png",
+    "ghostring.png"
+  ],
   count: [0, 0, 0, 0, 0],
+  level: [1, 1, 1, 1, 1],
   income: [
     0.1,
     1,
@@ -87,12 +106,20 @@ var building = {
     47,
     260
   ],
+  totalIncome: [0, 0, 0, 0, 0],
   cost: [
     15,
     100,
     1100,
     12000,
     130000,
+  ],
+  levelUpCost: [
+    150,
+    1000,
+    11000,
+    120000,
+    1300000,
   ],
 
   purchase: function(index) {
@@ -101,6 +128,21 @@ var building = {
       this.count[index]++;
       this.cost[index] = Math.round(this.cost[index] * 1.15);
 
+      display.updateScore();
+      display.updateShop();
+      display.updateUpgrade();
+      display.updateAchievement();
+    }
+  },
+
+  levelUp: function(index) {
+    if (game.score >= this.cost[index]) {
+      game.score -= this.levelUpCost[index];
+      this.level[index]++;
+      this.income[index] * this.level;
+      this.levelUpCost[index] = Math.round(this.levelUpCost[index] * 1.50);
+
+      
       display.updateScore();
       display.updateShop();
       display.updateUpgrade();
@@ -224,6 +266,7 @@ function oneSecondUpdates() {
 
   display.updateScore();
   display.updateAchievement();
+  display.updateTotalIncome();
 }
 
 function loadGame() {
@@ -371,7 +414,6 @@ document.addEventListener("keydown", function(event) { // ctrl+s = save game
 
 // Make the DIV element draggable:
 dragElement(document.getElementById("mainStats"));
-dragElement(document.getElementById("buildingContainer__PLACEHOLDER"));
 
 function dragElement(elmnt) {
   var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
