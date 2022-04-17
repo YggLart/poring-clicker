@@ -28,6 +28,12 @@
   --ff-roboto: 'Roboto', sans-serif;
   --ff-poppins: 'Poppins', sans-serif;
 
+  /* cursor */
+  --cursor-default: url('images/cursor/normal_select.gif');
+  --cursor-pointer: url('images/cursor/link_select.gif');
+  --cursor-help: url('images/cursor/help_select.gif');
+  --cursor-move: url('images/cursor/move.gif')
+
 }
 
 @media (min-width: 35em) {
@@ -138,20 +144,25 @@ select {
 .bg-light { background-color: hsl(var(--clr-light)); }
 .bg-dark { background-color: hsl(var(--clr-dark)); }
 
+/* general use */
+.inactive {
+  color: #828282;
+}
+.inactive img {
+  filter: grayscale(1);
+  opacity: .4;
+}
+
+/* margin padding */
+.m-1 { margin: .5rem; } 
+.ml-1 { margin-left: .5rem; }
+
 .p-1 { padding: .5rem; }
 .py-1 { padding-top: .5rem; padding-bottom: .5rem; }
 
-/* margin padding */
-.m-1 {
-  margin: .5rem;
-}
-
-.ml-1 {
-  margin-left: .5rem;
-}
-
 /* flex */
 .flex { display: flex; }
+.flex.no-wrap { flex-wrap: nowrap; }
 
 .flex.row { flex-direction: row; }
 .flex.col { flex-direction: column; }
@@ -177,13 +188,11 @@ select {
   opacity: 0;
   visibility: hidden;
   position: absolute;
-  z-index: 1;
+  z-index: 10000;
   margin: -.5rem 0 0 -15px;
   transform: translateY(-1rem);
   transition: .2s;
 }
-
-
 
 *>.dropdown .dropdown-content button {
   margin: 0;
@@ -198,7 +207,7 @@ select {
 }
 
 /* button */
-*>button {
+* > button {
   background-image: url('images/ui/bg-button.svg');
   border: 1px solid #A1A1A2;
   border-radius: .5rem;
@@ -207,12 +216,24 @@ select {
   height: 2rem;
   margin: .3rem;
   transition: .1s;
+  cursor: var(--cursor-pointer), auto;
 }
 
-*>button:hover {
-  box-shadow: 0 .1rem .2rem hsl(var(--clr-light), .3),
-    inset 0 0 .8rem hsl(var(--clr-primary), .5);
+* > button:hover {
+  box-shadow: 0 .1rem .2rem hsl(var(--clr-dark), .5),
+               inset 0 0 .8rem hsl(var(--clr-primary), .5);
   border-color: hsl(var(--clr-primary));
+  cursor: var(--cursor-pointer), auto;
+}
+
+* > button.inactive {
+  opacity: .4;
+  transition: .1s;
+}
+
+* > button.inactive:hover {
+  box-shadow: 0 .1rem .2rem hsl(var(--clr-dark), .5);
+  border-color: #A1A1A2;
 }
 
 .circle-button {
@@ -224,11 +245,13 @@ select {
   cursor: pointer;
   position: relative;
   border-radius: 100%;
+  cursor: var(--cursor-pointer), auto;
 }
 
 .circle-button:hover {
   box-shadow: 1px 1px 2px hsl(var(--clr-light), .3),
               inset 0 0 3px hsl(var(--clr-primary), .5) ;
+  cursor: var(--cursor-pointer), auto;
 }
 
 .header-right .circle-button:not(:last-child) {
@@ -441,13 +464,13 @@ body {
   background: hsl(var(--clr-white));
   box-shadow: 0 .2rem .5rem hsl(var(--clr-dark), .4);
   overflow: hidden;
-  border: 1px solid #aaa;
+  outline: 1px solid #aaa;
 }
 
 .box .header {
   padding: 3px 0;
   width: 100%;
-  cursor: move;
+  cursor: var(--cursor-move), auto;
   z-index: 10;
   display: flex;
   flex-direction: row;
@@ -522,6 +545,7 @@ body {
 /* builder */
 #buildingContainer .box {
   background-image: url('images/ui/bg-softDark.svg');
+  width: 350px;
 }
 
 #buildingContainer span {
@@ -582,20 +606,20 @@ body {
 }
 
 /* builder positions */
-#poringContainer {
+#poring {
   top: 100px; left: 400px;
 }
-#dropsContainer {
+#drops {
   top: 150px; left: 450px;
 }
-#poporingContainer {
+#poporing {
   top: 200px; left: 500px;
 }
-#marinContainer {
+#marin {
   top: 250px; left: 550px;
 }
-#ghostringContainer {
-  top: 350px; left: 600px;
+#ghostring {
+  top: 300px; left: 600px;
 }
 
 

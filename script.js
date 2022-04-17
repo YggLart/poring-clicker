@@ -1,3 +1,5 @@
+import { createPopper } from '@popperjs/core';
+
 var game = {
   score: 0,
   clickPower: 1,
@@ -5,13 +7,13 @@ var game = {
   totalClicks: 0,
   version: 0.000,
 
-  addToScore: function(amount) {
+  addToScore: function (amount) {
     this.score += amount;
     this.totalScore += amount;
     display.updateScore();
   },
 
-  getScorePerSecond: function() {
+  getScorePerSecond: function () {
     var scorePerSecond = 0;
     for (i = 0; i < building.name.length; i++) {
       scorePerSecond += building.income[i] * building.count[i];
@@ -21,31 +23,43 @@ var game = {
 };
 
 var display = {
-  updateScore: function() {
+  updateScore: function () {
     scoreAmount.innerHTML = Math.round(game.score);
-    scoresPerSecond.innerHTML = game.getScorePerSecond();
+    scoresPerSecond.innerHTML = Math.round(game.getScorePerSecond());
     document.title = Math.round(game.score) + " essences | Poring Clicker"
   },
 
-  updateShop: function() {
+  updateShop: function () {
     document.getElementById("buildingContainer").innerHTML = "";
     for (i = 0; i < building.name.length; i++) {
-      if (building.count[i] == 0) building.count[i]++
-      let bScorePerSecond = Math.round((building.income[i] * building.count[i]) * building.level[i] )
-      let bScorePerMinute =  Math.round(((building.income[i] * building.count[i]) * building.level[i] ) * 60);
-      let bScorePerHour = Math.round((((building.income[i] * building.count[i]) * building.level[i] ) * 60) * 60);
-      document.getElementById("buildingContainer").innerHTML += '<div id="'+ building.name[i] +'Container" class="box"> <div id="'+ building.name[i] +'Container-header" class="header"> <div class="name"> <div class="circle-button minimize"></div>'+ building.name[i] +' </div><div class="flex header-right"> <div class="circle-button minimize"></div><div class="circle-button cross"></div></div></div><div class="flex col"> <div class="flex row builder-info"> <div class="builder-box-image"><img src="images/builder/'+ building.image[i] +'" alt=""></div><div class="flex col"> <div class="flex a-center j-between builder-units"> <p><span>' + building.count[i] + '</span> units</p><p>Lvl <span>' + building.level[i] + '</span></p></div><div class="flex a-center builder-per-second"> <div class="card-gif"></div><div class="flex col"> <p><span>' + bScorePerSecond + '</span> /per second</p><p><span>' + bScorePerMinute + '</span> /per minute</p><p><span>' + bScorePerHour + '</span> /per hour</p></div></div><div class="flex a-center j-between builder-total"> <p><span>'+ building.totalIncome[i] +'</span> made in total</p></div></div></div><div class="flex j-around a-center builder-buy-upgrade"><button onclick="building.purchase(' + i + ')">buy</button> <button onclick="building.levelUp(' + i + ')">level up</button></div><div class="flex wrap bg-white builder-upgrade-box"> <div class="upgrade-slot flex aj-center"><img src="images/status/agi-up.png" alt=""/></div><div class="upgrade-slot flex aj-center"><img src="images/status/blessing.png" alt=""/></div><div class="upgrade-slot flex aj-center"><img src="images/status/FoodStr.png" alt=""/></div><div class="upgrade-slot flex aj-center"><img src="images/status/BattleManual.png" alt=""/></div><div class="upgrade-slot flex aj-center"></div></div></div></div>'
+      let bScorePerSecond = Math.round((building.income[i] * building.count[i]) * building.level[i])
+      let bScorePerMinute = Math.round(((building.income[i] * building.count[i]) * building.level[i]) * 60);
+      let bScorePerHour = Math.round((((building.income[i] * building.count[i]) * building.level[i]) * 60) * 60);
+
+      if (building.count[i] == 0) {
+        bScorePerSecond = building.income[i];
+        bScorePerMinute = building.income[i] * 60;
+        bScorePerHour = (building.income[i] * 60) * 60;
+        document.getElementById("buildingContainer").innerHTML += '<div id="' + building.name[i] + 'Container" class="box inactive" style="top: ' + building.positionY[i] + 'px; left: ' + building.positionX[i] + 'px;"> <div id="' + building.name[i] + 'Container-header" class="header"> <div class="name"> <div class="circle-button empty"></div>' + building.name[i] + ' </div><div class="flex header-right"> <div class="circle-button minimize"></div><div class="circle-button cross"></div></div></div><div class="flex col no-wrap"> <div class="flex row builder-info"> <div class="builder-box-image"><img src="images/builder/' + building.image[i] + '" alt=""></div><div class="flex col"> <div class="flex a-center j-between builder-units"> <p><span>' + building.count[i] + '</span> units</p><p>Lvl <span>' + building.level[i] + '</span></p></div><div class="flex a-center builder-per-second"> <img src="images/item/card.gif" class="m-1"> <div class="flex col"> <p><span>' + bScorePerSecond + '</span> /per second</p><p><span>' + bScorePerMinute + '</span> /per minute</p><p><span>' + bScorePerHour + '</span> /per hour</p></div></div><div class="flex a-center j-between builder-total"> <p><span id="' + building.name[i] + 'TotalIncome">' + Math.round(building.totalIncome[i]) + '</span> made in total</p></div></div></div><div class="flex j-around a-center builder-buy-upgrade"> <button onclick="building.purchase(' + i + ')">buy</button> <button onclick="building.levelUp(' + i + ')" class="inactive" disabled>level up</button> </div></div></div>'
+      } else {
+        document.getElementById("buildingContainer").innerHTML += '<div id="' + building.name[i] + 'Container" class="box" style="top: ' + building.positionY[i] + 'px; left: ' + building.positionX[i] + 'px;"> <div id="' + building.name[i] + 'Container-header" class="header"> <div class="name"> <div class="circle-button empty"></div>' + building.name[i] + ' </div><div class="flex header-right"> <div class="circle-button minimize"></div><div class="circle-button cross"></div></div></div><div class="flex col no-wrap"> <div class="flex row builder-info"> <div class="builder-box-image"><img src="images/builder/' + building.image[i] + '" alt=""></div><div class="flex col"> <div class="flex a-center j-between builder-units"> <p><span>' + building.count[i] + '</span> units</p><p>Lvl <span>' + building.level[i] + '</span></p></div><div class="flex a-center builder-per-second"> <img src="images/item/card.gif" class="m-1"> <div class="flex col"> <p><span>' + bScorePerSecond + '</span> /per second</p><p><span>' + bScorePerMinute + '</span> /per minute</p><p><span>' + bScorePerHour + '</span> /per hour</p></div></div><div class="flex a-center j-between builder-total"> <p><span id="' + building.name[i] + 'TotalIncome">' + Math.round(building.totalIncome[i]) + '</span> made in total</p></div></div></div><div class="flex j-around a-center builder-buy-upgrade"> <button onclick="building.purchase(' + i + ')">buy</button> <button onclick="building.levelUp(' + i + ')">level up</button> </div></div></div>'
+      }
+    }
+    for (i = 0; i < building.name.length; i++) {
       dragElement(document.getElementById(building.name[i] + "Container"));
     }
   },
 
-  updateTotalIncome: function() {
+  updateTotalIncome: function () {
     for (i = 0; i < building.name.length; i++) {
-      building.totalIncome[i] += building.income[i];
+      if (building.count[i] >= 1) {
+        building.totalIncome[i] += (building.income[i] * building.count[i]) * building.level[i];
+        document.getElementById(building.name[i] + 'TotalIncome').innerHTML = Math.round(building.totalIncome[i]);
+      }
     }
   },
 
-  updateUpgrade: function() {
+  updateUpgrade: function () {
     document.getElementById("upgradeContainer").innerHTML = "";
     for (i = 0; i < upgrade.name.length; i++) {
       if (!upgrade.purchased[i]) {
@@ -58,7 +72,7 @@ var display = {
     }
   },
 
-  updateAchievement: function() {
+  updateAchievement: function () {
     document.getElementById("achievementContainer").innerHTML = "";
     for (i = 0; i < achievement.name.length; i++) {
       if (achievement.awarded[i]) {
@@ -98,6 +112,7 @@ var building = {
     "ghostring.png"
   ],
   count: [0, 0, 0, 0, 0],
+  countPlaceholder: [1, 1, 1, 1, 1],
   level: [1, 1, 1, 1, 1],
   income: [
     0.1,
@@ -122,7 +137,7 @@ var building = {
     1300000,
   ],
 
-  purchase: function(index) {
+  purchase: function (index) {
     if (game.score >= this.cost[index]) {
       game.score -= this.cost[index];
       this.count[index]++;
@@ -135,20 +150,34 @@ var building = {
     }
   },
 
-  levelUp: function(index) {
+  levelUp: function (index) {
     if (game.score >= this.cost[index]) {
       game.score -= this.levelUpCost[index];
       this.level[index]++;
       this.income[index] * this.level;
       this.levelUpCost[index] = Math.round(this.levelUpCost[index] * 1.50);
 
-      
+
       display.updateScore();
       display.updateShop();
       display.updateUpgrade();
       display.updateAchievement();
     }
   },
+  positionX: [
+    400,
+    450,
+    500,
+    550,
+    600,
+  ],
+  positionY: [
+    150,
+    200,
+    250,
+    300,
+    350,
+  ],
 };
 
 var upgrade = {
@@ -186,7 +215,7 @@ var upgrade = {
     2,
   ],
   purchased: [false, false],
-  purchase: function(index) {
+  purchase: function (index) {
     if (!this.purchased[index] && game.score >= this.cost[index]) {
       if (this.type[index] == "building" && building.count[this.buildingIndex[index]] >= this.requirement[index]) {
         game.score -= this.cost[index];
@@ -241,7 +270,7 @@ var achievement = {
   ],
   awarded: [false, false, false, ],
 
-  earn: function(index) {
+  earn: function (index) {
     this.awarded[index] = true;
   },
 };
@@ -293,13 +322,26 @@ function loadGame() {
         building.cost[i] = gameSave.buildingCost[i];
       }
     }
-
+    if (typeof gameSave.boxPositionX !== "undefined") {
+      for (i = 0; i < gameSave.boxPositionX.length; i++) {
+        building.positionX[i] = gameSave.boxPositionX[i];
+      }
+    }
+    if (typeof gameSave.boxPositionY !== "undefined") {
+      for (i = 0; i < gameSave.boxPositionY.length; i++) {
+        building.positionY[i] = gameSave.boxPositionY[i];
+      }
+    }
+    if (typeof gameSave.buildingTotalIncome !== "undefined") {
+      for (i = 0; i < gameSave.buildingTotalIncome.length; i++) {
+        building.totalIncome[i] = gameSave.buildingTotalIncome[i];
+      }
+    }
     if (typeof gameSave.upgradePurchased !== "undefined") {
       for (i = 0; i < gameSave.upgradePurchased.length; i++) {
         upgrade.purchased[i] = gameSave.upgradePurchased[i];
       }
     }
-
   }
 }
 
@@ -313,9 +355,13 @@ function saveGame() {
 
     buildingCount: building.count,
     buildingIncome: building.income,
+    buildingTotalIncome: building.totalIncome,
     buildingCost: building.cost,
+    boxPositionX: building.positionX,
+    boxPositionY: building.positionY,
 
     upgradePurchased: upgrade.purchased,
+
   }
   localStorage.setItem("gameSave", JSON.stringify(gameSave));
 }
@@ -333,7 +379,7 @@ function resetGame() {
 function fadeOut(element, duration, finalOpacity, callback) {
   let opacity = 1;
 
-  let elementFadingInterval = window.setInterval(function() {
+  let elementFadingInterval = window.setInterval(function () {
     opacity -= 50 / duration;
 
     if (opacity <= finalOpacity) {
@@ -367,13 +413,13 @@ function floatNumberOnClick(event) {
   clicker.appendChild(element);
 
   // rise the element
-  let movementInterval = window.setInterval(function() {
+  let movementInterval = window.setInterval(function () {
     position.y--;
     element.style.top = position.y + "px";
   }, 10);
 
   // fade out the element
-  fadeOut(element, 3000, 0, function() {
+  fadeOut(element, 3000, 0, function () {
     element.remove();
   });
 }
@@ -384,7 +430,7 @@ function floatNumberOnClick(event) {
 // }, 25)
 
 
-setInterval(function() {
+setInterval(function () {
   display.updateScore();
   display.updateUpgrade();
 }, 10000)
@@ -392,20 +438,20 @@ setInterval(function() {
 setInterval(oneSecondUpdates, 1000) // essence per second
 setInterval(saveGame, 30000) // save game every 30s
 
-document.getElementById("bigCard").addEventListener("click", function() {
+document.getElementById("bigCard").addEventListener("click", function () {
   game.totalClicks++;
   game.addToScore(game.clickPower);
   floatNumberOnClick(event);
 }, false)
 
-window.onload = function() {
+window.onload = function () {
   loadGame();
   display.updateScore();
   display.updateShop();
   display.updateUpgrade();
 }
 
-document.addEventListener("keydown", function(event) { // ctrl+s = save game
+document.addEventListener("keydown", function (event) { // ctrl+s = save game
   if (event.ctrlKey && event.which == 83) {
     event.preventDefault();
     saveGame();
@@ -416,7 +462,10 @@ document.addEventListener("keydown", function(event) { // ctrl+s = save game
 dragElement(document.getElementById("mainStats"));
 
 function dragElement(elmnt) {
-  var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+  var pos1 = 0,
+    pos2 = 0,
+    pos3 = 0,
+    pos4 = 0;
   if (document.getElementById(elmnt.id + "-header")) {
     // if present, the header is where you move the DIV from:
     document.getElementById(elmnt.id + "-header").onmousedown = dragMouseDown;
@@ -447,7 +496,16 @@ function dragElement(elmnt) {
     // set the element's new position:
     elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
     elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
+    // save new position to var
+    for (i = 0; i < building.name.length; i++) {
+      if (elmnt.id == building.name[i] + "Container") {
+        building.positionY[i] = elmnt.offsetTop - pos2;
+        building.positionX[i] = elmnt.offsetLeft - pos1;
+      }
+    }
   }
+
+
 
   function closeDragElement() {
     // stop moving when mouse button is released:
