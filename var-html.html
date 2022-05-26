@@ -1,5 +1,5 @@
 
-<!-- generators -->
+<!-- old generator -->
 <!-- one line -->
 <div onclick="building.purchase(' + i + ')" class="building"><img class="m-image" src="images/monster/' + building.image[i] + '" alt=""><div class="monster"><h3 class="m-name">' + building.name[i] + '</h3><div class="m-cost"><img src="images/item/card.gif" alt=""> <span>' + building.cost[i] + '</span></div></div><h4>' + building.count[i] + '</h4></div>
 
@@ -16,10 +16,122 @@
 
 </div>
 
+<!-- new generators -->
+<!-- one line -->
+<div id="'+ building.name[i] +'Container" class="box inactive" style="top: '+ building.positionY[i] +'px; left: '+ building.positionX[i] +'px;"> <div id="'+ building.name[i] +'Container-header" class="header"> <div class="name"> <div class="circle-button empty"></div>'+ building.name[i] +' </div><div class="flex header-right"> <div class="circle-button minimize"></div><div class="circle-button cross"></div></div></div><div class="flex col no-wrap"> <div class="flex row builder-info"> <div class="builder-box-image"><img src="images/builder/'+ building.image[i] +'" alt=""></div><div class="flex col"> <div class="flex a-center j-between builder-units"> <p><span>' + building.count[i] + '</span> units</p><p>Lvl <span>' + building.level[i] + '</span></p></div><div class="flex a-center builder-per-second"> <img src="images/item/card.gif" class="m-1"> <div class="flex col"> <p><span>' + bScorePerSecond + '</span> /per second</p><p><span>' + bScorePerMinute + '</span> /per minute</p><p><span>' + bScorePerHour + '</span> /per hour</p></div></div><div class="flex a-center j-between builder-total"> <p><span id="'+ building.name[i] +'TotalIncome">'+ building.totalIncome[i] +'</span> made in total</p></div></div></div><div class="flex j-around a-center builder-buy-upgrade"><button onclick="building.purchase(' + i + ')">buy</button> <button onclick="building.levelUp(' + i + ')">level up</button></div></div></div>
+
+<div id="'+ building.name[i] +'Container" class="box inactive" style="top: '+ building.positionY[i] +'px; left: '+ building.positionX[i] +'px;">
+  <div id="'+ building.name[i] +'Container-header" class="header">
+      <div class="name">
+          <div class="circle-button empty"></div>
+          '+ building.name[i] +'
+      </div>
+      <div class="flex header-right">
+          <div class="circle-button minimize"></div>
+          <div class="circle-button cross"></div>
+      </div>
+  </div>
+  <div class="flex col no-wrap">
+      <div class="flex row builder-info">
+          <div class="builder-box-image"><img src="images/builder/'+ building.image[i] +'" alt=""></div>
+          <div class="flex col">
+              <div class="flex a-center j-between builder-units">
+                  <p><span>' + building.count[i] + '</span> units</p>
+                  <p>Lvl <span>' + building.level[i] + '</span></p>
+              </div>
+              <div class="flex a-center builder-per-second">
+                  <img src="images/item/card.gif" class="m-1">
+                  <div class="flex col">
+                      <p><span>' + bScorePerSecond + '</span> /per second</p>
+                      <p><span>' + bScorePerMinute + '</span> /per minute</p>
+                      <p><span>' + bScorePerHour + '</span> /per hour</p>
+                  </div>
+              </div>
+              <div class="flex a-center j-between builder-total">
+                  <p><span id="'+ building.name[i] +'TotalIncome">'+ building.totalIncome[i] +'</span> made in total</p>
+              </div>
+          </div>
+      </div>
+      <div class="flex j-around a-center builder-buy-upgrade">
+        <button onclick="building.purchase(' + i + ')">buy</button>
+        <button onclick="building.levelUp(' + i + ')" class="inactive" disabled>level up</button>
+      </div>
+  </div>
+</div>
+
+<!-- enhancements on box -->
+<div class="flex wrap bg-white builder-upgrade-box">
+  <div class="upgrade-slot flex aj-center"><img src="images/status/agi-up.png" alt="" /></div>
+  <div class="upgrade-slot flex aj-center"><img src="images/status/blessing.png" alt="" /></div>
+  <div class="upgrade-slot flex aj-center"><img src="images/status/FoodStr.png" alt="" /></div>
+  <div class="upgrade-slot flex aj-center"><img src="images/status/BattleManual.png" alt="" /></div>
+  <div class="upgrade-slot flex aj-center"></div>
+</div>
+
 <!-- enhancement -->
 <!-- one line -->
-<div id="enhancement01"><img src="images/item/jellopy.gif" alt=""></div>
+<div class="upgrade ready flex col a-center"><h3>'+ upgrade.name[i] +'</h3><img src="'+ upgrade.image[i] +'" alt=""></div>
 
-<div id="enhancement01">
-  <img src="images/item/jellopy.gif" alt="">
+<div class="upgrade ready flex col a-center">
+  <h3>'+ upgrade.name[i] +'</h3>
+  <img src="'+ upgrade.image[i] +'" alt="">
+  <h3>'+ upgrade.level[i] +'</h3>
+</div>
+
+
+
+
+
+<!-- -------------------------------------------- -->
+<div id="buildingContainer__PLACEHOLDER" class="box">
+  <!-- header -->
+  <div id="buildingContainer__PLACEHOLDER-header" class="header">
+    <div class="name">
+      <div class="circle-button empty"></div>
+      Poring
+    </div>
+    <div class="flex header-right">
+      <div class="circle-button minimize"></div>
+      <div class="circle-button cross"></div>
+    </div>
+  </div>
+  <!-- content -->
+  <div class="flex col">
+    <!-- section :: builder info -->
+    <div class="flex row builder-info ">
+      <div id="builderBoxImage" class="builder-box-image"></div>
+      <div class="flex col">
+        <div class="flex a-center j-between builder-units">
+          <p><span id="building.count[i]">18</span> units</p>
+          <p>Lvl <span id="building.level[i]">6</span></p>
+        </div>
+
+        <div class="flex a-center builder-per-second">
+          <div class="card-gif"></div>
+          <div class="flex col">
+            <p><span id="building.income">200</span> /per second</p>
+            <p><span id="building.income">200</span> /per minute</p>
+            <p><span id="building.income">200</span> /per hour</p>
+          </div>
+        </div>
+
+        <div class="flex a-center j-start builder-total">
+          <p><span id="building.count[i]">168 k</span> in total</p>
+        </div>
+      </div>
+    </div>
+    <!-- section :: buy & upgrade -->
+    <div class="flex j-around a-center builder-buy-upgrade">
+      <button>buy</button>
+      <button>level up</button>
+    </div>
+    <!-- section :: builder upgrades -->
+    <div class="flex wrap bg-white builder-upgrade-box">
+      <div class="upgrade-slot flex aj-center"><img src="images/status/agi-up.png" alt=""></div>
+      <div class="upgrade-slot flex aj-center"><img src="images/status/blessing.png" alt=""></div>
+      <div class="upgrade-slot flex aj-center"><img src="images/status/FoodStr.png" alt=""></div>
+      <div class="upgrade-slot flex aj-center"><img src="images/status/BattleManual.png" alt=""></div>
+      <div class="upgrade-slot flex aj-center"></div>
+    </div>
+  </div>
 </div>
